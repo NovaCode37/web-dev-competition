@@ -52,7 +52,6 @@ export default function Navbar() {
     >
       <div className="wrap">
         <nav className="flex items-center gap-12 py-3.5">
-          {/* Logo */}
           <a href="#" className="flex items-center gap-3 shrink-0" style={{ color: "var(--ink)" }}>
             <span style={{ color: "var(--accent)" }}>
               <LogoMark />
@@ -70,7 +69,6 @@ export default function Navbar() {
             </span>
           </a>
 
-          {/* Desktop links */}
           <ul className="hidden md:flex gap-9 flex-1 justify-center list-none m-0 p-0">
             {NAV_LINKS.map((l) => (
               <li key={l.href}>
@@ -97,7 +95,6 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* CTA */}
           <div className="hidden md:flex items-center gap-3.5 ml-auto shrink-0">
             <span className="mono-sm flex items-center gap-2">
               <span
@@ -131,7 +128,6 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Mobile burger */}
           <button
             className="md:hidden ml-auto p-2"
             style={{ background: "none", border: "none", color: "var(--ink)" }}
@@ -144,7 +140,6 @@ export default function Navbar() {
           </button>
         </nav>
 
-        {/* Mobile menu */}
         <AnimatePresence>
           {menuOpen && (
             <motion.div

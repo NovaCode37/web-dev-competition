@@ -39,7 +39,7 @@ const PHASES = [
 
 export default function Training() {
   return (
-    <section id="training" className="wrap" style={{ padding: "120px 0", borderBottom: "1px solid var(--line-soft)" }}>
+    <section id="training" className="wrap scan-overlay" style={{ padding: "120px 0", borderBottom: "1px solid var(--line-soft)" }}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -83,14 +83,13 @@ export default function Training() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: idx * 0.1 }}
-            className="flex flex-col p-6 gap-5 relative"
+            className="flex flex-col p-6 gap-5 relative hover-lift"
             style={{
               borderRight: idx < PHASES.length - 1 ? "1px solid var(--line)" : "none",
               borderBottom: "1px solid var(--line)",
               background: "rgba(13,20,36,0.2)",
             }}
           >
-            {/* Phase number */}
             <div
               style={{
                 fontFamily: "var(--ff-mono)",
@@ -104,7 +103,6 @@ export default function Training() {
               {phase.num}
             </div>
 
-            {/* Content */}
             <div className="flex flex-col flex-1 gap-2">
               <h3
                 style={{
@@ -125,7 +123,6 @@ export default function Training() {
               </p>
             </div>
 
-            {/* Duration */}
             <div
               className="flex items-center justify-between pt-4"
               style={{ borderTop: "1px dashed var(--line)" }}
@@ -138,10 +135,9 @@ export default function Training() {
               </span>
             </div>
 
-            {/* Vertical progress line */}
             <div
-              className="absolute left-6 top-0 w-px h-3"
-              style={{ background: "var(--accent)", boxShadow: "0 0 8px var(--accent)" }}
+              className="absolute left-6 top-0 w-px h-3 glow-pulse"
+              style={{ background: "var(--accent)" }}
             />
           </motion.div>
         ))}

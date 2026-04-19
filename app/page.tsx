@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { useState, useCallback } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import Preloader from "@/components/nova/Preloader";
 import Navbar from "@/components/nova/Navbar";
 import Hero from "@/components/nova/Hero";
 import Tours from "@/components/nova/Tours";
@@ -12,19 +13,31 @@ import Footer from "@/components/nova/Footer";
 import BookingModal, { type BookingTarget } from "@/components/nova/BookingModal";
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
   const [bookingTarget, setBookingTarget] = useState<BookingTarget | null>(null);
+  const handleLoaded = useCallback(() => setLoading(false), []);
 
   return (
     <>
-      <Navbar />
-      <main>
-        <Hero />
-        <Tours onBook={setBookingTarget} />
-        <Fleet />
-        <Training />
-        <About />
-      </main>
-      <Footer />
+      <AnimatePresence>
+        {loading && <Preloader key="preloader" onDone={handleLoaded} />}
+      </AnimatePresence>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: loading ? 0 : 1 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+      >
+        <Navbar />
+        <main>
+          <Hero />
+          <Tours onBook={setBookingTarget} />
+          <Fleet />
+          <Training />
+          <About />
+        </main>
+        <Footer />
+      </motion.div>
 
       <AnimatePresence>
         {bookingTarget && (

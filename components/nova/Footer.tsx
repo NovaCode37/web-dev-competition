@@ -66,7 +66,6 @@ export default function Footer() {
         transition={{ duration: 0.6 }}
       >
         <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_1fr] gap-12 pb-16" style={{ borderBottom: "1px solid var(--line-soft)" }}>
-          {/* Brand */}
           <div>
             <span className="mono-sm block mb-4">◆ Nova Astro · Mission Integrator</span>
             <a href="#" className="flex items-center gap-3 mb-5" style={{ color: "var(--ink)" }}>
@@ -90,7 +89,6 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Missions */}
           <div>
             <h4
               className="mb-5"
@@ -114,7 +112,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Agency */}
           <div>
             <h4
               className="mb-5"
@@ -138,7 +135,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact */}
           <div>
             <h4
               className="mb-5"
@@ -163,7 +159,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
         <div
           className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 pt-8"
         >

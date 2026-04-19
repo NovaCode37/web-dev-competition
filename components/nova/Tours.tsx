@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import type { BookingTarget } from "./BookingModal";
+import { fetchTours, type Tour } from "@/lib/api";
 
 interface TourSpec {
   id: string;
@@ -232,10 +233,38 @@ function Countdown() {
   );
 }
 
+function seatsStatus(seats: number): { text: string; color: string } {
+  if (seats > 3) return { text: `OPEN \u00b7 ${seats} seats`, color: "var(--accent)" };
+  if (seats > 0) return { text: `WAITLIST \u00b7 ${seats} seats`, color: "var(--gold)" };
+  return { text: "SELECT \u00b7 0 seats", color: "var(--danger)" };
+}
+
+function formatPrice(mln: number): string {
+  return `USD ${Math.round(mln * 1_000_000).toLocaleString("en-US").replace(/,/g, " ")}`;
+}
+
 export default function Tours({ onBook }: ToursProps) {
+  const [apiTours, setApiTours] = useState<Record<string, Tour>>({});
+
+  useEffect(() => {
+    fetchTours()
+      .then((res) => {
+        const map: Record<string, Tour> = {};
+        res.items.forEach((t) => { map[t.id] = t; });
+        setApiTours(map);
+      })
+      .catch(() => {});
+  }, []);
+
+  const enriched = TOURS.map((tour) => {
+    const api = apiTours[tour.missionId];
+    if (!api) return tour;
+    const s = seatsStatus(api.seats_left);
+    return { ...tour, status: s.text, statusColor: s.color, price: formatPrice(api.price_mln) };
+  });
+
   return (
-    <section id="tours" className="wrap" style={{ padding: "120px 0", borderBottom: "1px solid var(--line-soft)" }}>
-      {/* Section header */}
+    <section id="tours" className="wrap scan-overlay" style={{ padding: "120px 0", borderBottom: "1px solid var(--line-soft)" }}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -271,22 +300,20 @@ export default function Tours({ onBook }: ToursProps) {
         </div>
       </motion.div>
 
-      {/* Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-0" style={{ border: "1px solid var(--line)" }}>
-        {TOURS.map((tour, idx) => (
+        {enriched.map((tour, idx) => (
           <motion.article
             key={tour.id}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: idx * 0.1 }}
-            className="flex flex-col"
+            className="flex flex-col hover-lift"
             style={{
-              borderRight: idx < TOURS.length - 1 ? "1px solid var(--line)" : "none",
+              borderRight: idx < enriched.length - 1 ? "1px solid var(--line)" : "none",
               background: "rgba(13,20,36,0.3)",
             }}
           >
-            {/* Top badge */}
             <div
               className="flex items-center justify-between px-4 py-3"
               style={{ borderBottom: "1px solid var(--line)" }}
@@ -299,7 +326,6 @@ export default function Tours({ onBook }: ToursProps) {
               </span>
             </div>
 
-            {/* Diagram */}
             <div
               className="relative"
               style={{ aspectRatio: "4/3", padding: "8px", borderBottom: "1px solid var(--line)" }}
@@ -319,7 +345,6 @@ export default function Tours({ onBook }: ToursProps) {
               {tour.diagram}
             </div>
 
-            {/* Body */}
             <div className="flex flex-col flex-1 p-6 gap-5">
               <div>
                 <div
@@ -338,7 +363,6 @@ export default function Tours({ onBook }: ToursProps) {
                 </div>
               </div>
 
-              {/* Specs grid */}
               <div className="grid grid-cols-2 gap-x-4 gap-y-2">
                 {tour.specs.map((s) => (
                   <div key={s.k}>
@@ -352,7 +376,6 @@ export default function Tours({ onBook }: ToursProps) {
                 ))}
               </div>
 
-              {/* Price */}
               <div className="mt-auto">
                 <div style={{ fontFamily: "var(--ff-mono)", fontSize: 11, color: "var(--ink-mute)", textTransform: "uppercase", marginBottom: 4 }}>
                   Стоимость
@@ -364,7 +387,6 @@ export default function Tours({ onBook }: ToursProps) {
                 </div>
               </div>
 
-              {/* CTA */}
               <div className="flex gap-2">
                 <button
                   onClick={() => onBook({ type: "spec", missionId: tour.missionId })}

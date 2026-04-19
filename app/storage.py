@@ -1,109 +1,101 @@
-from app.schemas import Difficulty, RouteModule, Tour, Booking
-
+﻿from app.schemas import Booking, Difficulty, RouteModule, Tour
 
 TOURS: dict[str, Tour] = {
-    "orbital-weekend": Tour(
-        id="orbital-weekend",
-        title="Orbital Weekend",
-        destination="Low Earth Orbit",
-        duration_days=3,
-        price_mln=1.8,
-        seats_left=12,
+    "orbital": Tour(
+        id="orbital",
+        title="Орбитальная станция",
+        destination="Низкая околоземная орбита",
+        duration_days=7,
+        price_mln=28.0,
+        seats_left=4,
         difficulty=Difficulty.beginner,
         highlights=[
-            "Sunrise every 90 minutes",
-            "Zero-gravity photo session",
-            "Docked dinner at orbital station"
+            "Стыковка с Nova-Station LEO",
+            "7 суток на борту орбитального сегмента",
+            "Панорамный обзор Земли из купола станции"
         ],
-        description="Short mission for first-time space tourists with a training day and two days in orbit."
+        description="Базовая туристическая миссия с подготовкой, выходом на орбиту и жизнью на станции в составе смешанного экипажа."
     ),
-    "lunar-footsteps": Tour(
-        id="lunar-footsteps",
-        title="Lunar Footsteps",
-        destination="Moon Surface",
-        duration_days=8,
-        price_mln=5.9,
-        seats_left=6,
+    "moon": Tour(
+        id="moon",
+        title="Облёт Moon",
+        destination="Лунная траектория свободного возврата",
+        duration_days=11,
+        price_mln=78.5,
+        seats_left=2,
         difficulty=Difficulty.advanced,
         highlights=[
-            "Guided rover expedition",
-            "Walk at Shackleton rim",
-            "Night stay in lunar dome"
+            "Траектория фон Брауна с возвратом к Земле",
+            "Прохождение периселения 110 км",
+            "Наблюдение обратной стороны Луны"
         ],
-        description="A focused Moon mission with astronaut mentors, surface trekking and scientific mini quests."
+        description="Продвинутая миссия облёта Луны для участников после медицинского и центрифужного отбора."
     ),
-    "station-scholar": Tour(
-        id="station-scholar",
-        title="Station Scholar",
-        destination="Orbital Research Station",
-        duration_days=6,
-        price_mln=3.7,
-        seats_left=9,
-        difficulty=Difficulty.advanced,
-        highlights=[
-            "Lab workshop with crew",
-            "Earth observation challenge",
-            "Robotics practice session"
-        ],
-        description="Educational route for curious travelers with station modules, experiments and group missions."
-    ),
-    "deep-space-signature": Tour(
-        id="deep-space-signature",
-        title="Deep Space Signature",
-        destination="Cislunar Space",
-        duration_days=12,
-        price_mln=9.4,
-        seats_left=4,
+    "mars": Tour(
+        id="mars",
+        title="Марсианский цикл",
+        destination="Орбита Марса",
+        duration_days=510,
+        price_mln=310.0,
+        seats_left=0,
         difficulty=Difficulty.expert,
         highlights=[
-            "Far-side Moon flyby",
-            "Private command deck shift",
-            "Advanced navigation immersion"
+            "Флайбай и 14 суток на орбите Марса",
+            "Трансфер по окну 2028 года",
+            "Полный цикл длительной межпланетной миссии"
         ],
-        description="Premium expedition for prepared travelers with long-duration transfer and elite onboard program."
+        description="Экспедиционный продукт селективного уровня с длительной подготовкой, многоэтапным отбором и ограниченным числом участников."
     )
 }
 
 ROUTE_MODULES: list[RouteModule] = [
     RouteModule(
         id="prep-sim",
-        title="Simulation Hangar",
-        destination="Ground Training Complex",
+        title="Тренировочный комплекс",
+        destination="Центр подготовки экипажей",
         duration_days=1,
-        price_mln=0.2,
-        experience="Adaptation drills, suit fitting and mission briefing"
+        price_mln=0.3,
+        experience="Адаптационные тренировки, скафандры и предполётный брифинг"
     ),
     RouteModule(
         id="orbit-panorama",
-        title="Orbit Panorama",
-        destination="Low Earth Orbit",
+        title="Орбитальный сегмент",
+        destination="Низкая околоземная орбита",
         duration_days=2,
-        price_mln=1.1,
-        experience="Cupola observation and camera route above continents"
+        price_mln=1.4,
+        experience="Обзор Земли, смены в куполе и работа с бортовой камерой"
     ),
     RouteModule(
         id="station-visit",
-        title="Station Visit",
-        destination="Orbital Research Station",
+        title="Стыковка со станцией",
+        destination="Орбитальная станция",
         duration_days=2,
-        price_mln=1.4,
-        experience="Team docking, station tour and experiment block"
+        price_mln=1.9,
+        experience="Стыковка, экскурсия по модулям и научный блок"
     ),
     RouteModule(
         id="lunar-transfer",
-        title="Lunar Transfer",
-        destination="Cislunar Space",
+        title="Лунный трансфер",
+        destination="Цислунарное пространство",
         duration_days=3,
-        price_mln=2.1,
-        experience="Engine burn sequence and deep-space navigation night"
+        price_mln=2.8,
+        experience="Импульсный разгон, навигация дальнего участка и ночная вахта"
     ),
     RouteModule(
         id="moon-walk",
-        title="Moon Walk",
-        destination="Moon Surface",
+        title="Лунный модуль",
+        destination="Луна",
         duration_days=2,
-        price_mln=2.6,
-        experience="Guided EVA, crater route and lunar horizon camp"
+        price_mln=3.5,
+        experience="Сценарий высадки, маршрут по кратеру и лунный лагерь"
+    ),
+    RouteModule(
+        id="mars-orbit",
+        title="Марсианская орбита",
+        destination="Орбита Марса",
+        duration_days=4,
+        price_mln=6.2,
+        experience="Орбитальные манёвры, дистанционные операции и научные сессии"
     )
 ]
 

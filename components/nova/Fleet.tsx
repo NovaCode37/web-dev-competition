@@ -127,7 +127,7 @@ const VESSELS: Vessel[] = [
 
 export default function Fleet() {
   return (
-    <section id="fleet" className="wrap" style={{ padding: "120px 0", borderBottom: "1px solid var(--line-soft)" }}>
+    <section id="fleet" className="wrap scan-overlay" style={{ padding: "120px 0", borderBottom: "1px solid var(--line-soft)" }}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -171,13 +171,12 @@ export default function Fleet() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: idx * 0.1 }}
-            className="flex flex-col p-5 gap-4"
+            className="flex flex-col p-5 gap-4 hover-lift"
             style={{
               borderRight: idx < VESSELS.length - 1 ? "1px solid var(--line)" : "none",
               background: "rgba(13,20,36,0.2)",
             }}
           >
-            {/* Header */}
             <div className="flex items-center justify-between">
               <span style={{ fontFamily: "var(--ff-mono)", fontSize: 9.5, color: "var(--ink-mute)", letterSpacing: "0.06em" }}>
                 {v.id}
@@ -187,7 +186,6 @@ export default function Fleet() {
               </span>
             </div>
 
-            {/* Diagram box */}
             <div
               className="relative"
               style={{
@@ -197,7 +195,6 @@ export default function Fleet() {
                 aspectRatio: "2/1",
               }}
             >
-              {/* Corner brackets */}
               <span className="absolute top-0 left-0 w-2.5 h-2.5" style={{ borderTop: "1px solid var(--accent)", borderLeft: "1px solid var(--accent)" }} />
               <span className="absolute top-0 right-0 w-2.5 h-2.5" style={{ borderTop: "1px solid var(--accent)", borderRight: "1px solid var(--accent)" }} />
               <span className="absolute bottom-0 left-0 w-2.5 h-2.5" style={{ borderBottom: "1px solid var(--accent)", borderLeft: "1px solid var(--accent)" }} />
@@ -208,12 +205,11 @@ export default function Fleet() {
               >
                 {v.tag}
               </span>
-              <div className="w-full h-full flex items-center">
+              <div className="w-full h-full flex items-center float">
                 {v.diagram}
               </div>
             </div>
 
-            {/* Name */}
             <div>
               <div style={{ fontFamily: "var(--ff-display)", fontSize: 17, fontWeight: 500, color: "var(--ink)" }}>
                 {v.name}
@@ -223,7 +219,6 @@ export default function Fleet() {
               </div>
             </div>
 
-            {/* KV */}
             <div
               className="grid grid-cols-3 gap-x-2 pt-4"
               style={{ borderTop: "1px solid var(--line-soft)" }}

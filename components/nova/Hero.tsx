@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { fetchStats } from "@/lib/api";
 
 const TICKER_ITEMS = [
   "Окно MOON-3 откроется 2026/11/02",
@@ -11,7 +12,7 @@ const TICKER_ITEMS = [
   "Training cohort GA-6/34 · набор",
 ];
 
-const HUD_DATA = [
+const HUD_STATIC = [
   {
     label: "◆ Nearest window",
     value: "T-minus 41d 17:22:09",
@@ -19,8 +20,8 @@ const HUD_DATA = [
   },
   {
     label: "◆ Manifest",
-    value: "312 / 340 seats",
-    sub: "across 9 scheduled missions",
+    value: "— / — seats",
+    sub: "loading...",
   },
   {
     label: "◆ Active vessels",
@@ -29,13 +30,64 @@ const HUD_DATA = [
   },
 ];
 
+function HudBar() {
+  const [hud, setHud] = useState(HUD_STATIC);
+
+  useEffect(() => {
+    fetchStats()
+      .then((stats) => {
+        setHud((prev) =>
+          prev.map((cell, i) => {
+            if (i === 1) {
+              return {
+                ...cell,
+                value: `${stats.available_seats} seats available`,
+                sub: `across ${stats.tours_total} scheduled missions`,
+              };
+            }
+            return cell;
+          })
+        );
+      })
+      .catch(() => {});
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="grid grid-cols-1 sm:grid-cols-3 gap-0 pb-10 mb-14"
+      style={{ borderBottom: "1px dashed var(--line)" }}
+    >
+      {hud.map((cell, i) => (
+        <div
+          key={i}
+          className="px-6 first:pl-0 first:border-l-0"
+          style={{ borderLeft: i === 0 ? "none" : "1px dashed var(--line)" }}
+        >
+          <span className="mono-sm block mb-2" style={{ color: "var(--accent)" }}>
+            {cell.label}
+          </span>
+          <div
+            className="text-lg"
+            style={{ fontFamily: "var(--ff-mono)", color: "var(--ink)", letterSpacing: "-0.01em" }}
+          >
+            {cell.value}
+          </div>
+          <div className="mono-sm mt-1">{cell.sub}</div>
+        </div>
+      ))}
+    </motion.div>
+  );
+}
+
 function TrajectoryDiagram() {
   return (
     <div
       className="schema-box relative aspect-square p-5 hidden md:block"
       style={{ minHeight: 360 }}
     >
-      {/* bottom-right corner decoration */}
       <span
         className="absolute bottom-0 right-0 w-3.5 h-3.5"
         style={{
@@ -139,37 +191,9 @@ export default function Hero() {
       className="wrap relative"
       style={{ padding: "72px 0 48px", borderBottom: "1px solid var(--line-soft)" }}
     >
-      {/* HUD bar */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="grid grid-cols-1 sm:grid-cols-3 gap-0 pb-10 mb-14"
-        style={{ borderBottom: "1px dashed var(--line)" }}
-      >
-        {HUD_DATA.map((cell, i) => (
-          <div
-            key={i}
-            className="px-6 first:pl-0 first:border-l-0"
-            style={{ borderLeft: i === 0 ? "none" : "1px dashed var(--line)" }}
-          >
-            <span className="mono-sm block mb-2" style={{ color: "var(--accent)" }}>
-              {cell.label}
-            </span>
-            <div
-              className="text-lg"
-              style={{ fontFamily: "var(--ff-mono)", color: "var(--ink)", letterSpacing: "-0.01em" }}
-            >
-              {cell.value}
-            </div>
-            <div className="mono-sm mt-1">{cell.sub}</div>
-          </div>
-        ))}
-      </motion.div>
+      <HudBar />
 
-      {/* Main grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-0px items-center">
-        {/* Left */}
         <div>
           <motion.div
             initial={{ opacity: 0 }}
@@ -258,7 +282,6 @@ export default function Hero() {
             </button>
           </motion.div>
 
-          {/* Alert ticker */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -307,7 +330,6 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* Right: trajectory diagram */}
         <motion.div
           initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}

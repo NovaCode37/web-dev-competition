@@ -14,7 +14,6 @@ function OpsTopology() {
       className="schema-box relative w-full h-full"
       style={{ minHeight: 400 }}
     >
-      {/* bottom corner decorations */}
       <span className="absolute bottom-0 left-0 w-3.5 h-3.5" style={{ borderRight: "1px solid var(--accent)", borderTop: "1px solid var(--accent)", transform: "rotate(-90deg)" }} />
       <span className="absolute bottom-0 right-0 w-3.5 h-3.5" style={{ borderLeft: "1px solid var(--accent)", borderTop: "1px solid var(--accent)", transform: "rotate(90deg)" }} />
 
@@ -33,13 +32,11 @@ function OpsTopology() {
         </defs>
         <rect width="500" height="400" fill="url(#g2)" />
 
-        {/* Central node */}
         <rect x="200" y="170" width="100" height="60" fill="#0d1424" stroke="oklch(0.70 0.18 295)" strokeWidth="1.2" />
         <text x="250" y="195" textAnchor="middle" fontFamily="Space Grotesk, sans-serif" fontSize="13" fill="#e7ecf5">Nova Astro</text>
         <text x="250" y="210" textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="8.5" fill="oklch(0.70 0.18 295)">MISSION INTEGRATOR</text>
         <text x="250" y="222" textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="7.5" fill="#5a6686">NODE-000</text>
 
-        {/* Satellite nodes */}
         <rect x="30" y="40" width="130" height="54" fill="#0d1424" stroke="#1a2540" strokeWidth="1" />
         <text x="95" y="62" textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="9" fill="oklch(0.84 0.13 85)">LAUNCH PROVIDERS</text>
         <text x="95" y="76" textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="7.5" fill="#8b97b3">Axiom · Roscosmos</text>
@@ -70,7 +67,6 @@ function OpsTopology() {
         <text x="405" y="346" textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="7.5" fill="#8b97b3">FAA § 460 · ESA-HSC</text>
         <text x="405" y="357" textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="7.5" fill="#8b97b3">IAASS certified</text>
 
-        {/* Connecting lines */}
         <g stroke="oklch(0.70 0.18 295)" strokeWidth="0.8" strokeDasharray="2 3" opacity=".7" fill="none">
           <path d="M 160 67 L 215 180" />
           <path d="M 340 67 L 285 180" />
@@ -80,7 +76,6 @@ function OpsTopology() {
           <path d="M 340 337 L 285 225" />
         </g>
 
-        {/* Node dots */}
         <g fill="oklch(0.70 0.18 295)">
           <circle cx="160" cy="67" r="2" />
           <circle cx="340" cy="67" r="2" />
@@ -96,7 +91,7 @@ function OpsTopology() {
 
 export default function About() {
   return (
-    <section id="about" className="wrap" style={{ padding: "120px 0", borderBottom: "1px solid var(--line-soft)" }}>
+    <section id="about" className="wrap scan-overlay" style={{ padding: "120px 0", borderBottom: "1px solid var(--line-soft)" }}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -133,7 +128,6 @@ export default function About() {
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-        {/* Left: text */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -163,7 +157,6 @@ export default function About() {
             </p>
           </div>
 
-          {/* Stats */}
           <div className="grid grid-cols-3 gap-0 mt-12" style={{ borderTop: "1px solid var(--line)" }}>
             {STATS.map((s, idx) => (
               <motion.div
@@ -198,7 +191,6 @@ export default function About() {
           </div>
         </motion.div>
 
-        {/* Right: topology diagram */}
         <motion.div
           initial={{ opacity: 0, scale: 0.97 }}
           whileInView={{ opacity: 1, scale: 1 }}

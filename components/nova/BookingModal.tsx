@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { createBooking } from "@/lib/api";
 
 export type MissionId = "orbital" | "moon" | "mars";
 export type BookingTarget =
@@ -74,6 +75,7 @@ interface BookingModalProps {
 
 export default function BookingModal({ target, onClose }: BookingModalProps) {
   const [toast, setToast] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -97,10 +99,31 @@ export default function BookingModal({ target, onClose }: BookingModalProps) {
     if (e.target === overlayRef.current) onClose();
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onClose();
-    showToast("Заявка отправлена. Ожидайте ответа от Mission Control.");
+    const fd = new FormData(e.currentTarget);
+    const firstName = (fd.get("firstName") as string) ?? "";
+    const lastName = (fd.get("lastName") as string) ?? "";
+    const email = (fd.get("email") as string) ?? "";
+    const mission = (fd.get("mission") as string) ?? target?.missionId ?? "orbital";
+    const phone = (fd.get("phone") as string) ?? "";
+    setSubmitting(true);
+    try {
+      await createBooking({
+        tour_id: mission,
+        full_name: `${firstName} ${lastName}`.trim(),
+        email,
+        travelers_count: 1,
+        special_request: phone || undefined,
+      });
+      onClose();
+      showToast("Заявка отправлена. Ожидайте ответа от Mission Control.");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Ошибка при отправке заявки";
+      showToast(msg);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (!target) return (
@@ -179,13 +202,11 @@ export default function BookingModal({ target, onClose }: BookingModalProps) {
             border: "1px solid var(--line)",
           }}
         >
-          {/* Corner decorations */}
           <span className="absolute top-0 left-0 w-3.5 h-3.5" style={{ borderTop: "1px solid var(--accent)", borderLeft: "1px solid var(--accent)" }} />
           <span className="absolute top-0 right-0 w-3.5 h-3.5" style={{ borderTop: "1px solid var(--accent)", borderRight: "1px solid var(--accent)" }} />
           <span className="absolute bottom-0 left-0 w-3.5 h-3.5" style={{ borderBottom: "1px solid var(--accent)", borderLeft: "1px solid var(--accent)" }} />
           <span className="absolute bottom-0 right-0 w-3.5 h-3.5" style={{ borderBottom: "1px solid var(--accent)", borderRight: "1px solid var(--accent)" }} />
 
-          {/* Header */}
           <div
             className="flex items-center justify-between px-6 py-4"
             style={{ borderBottom: "1px solid var(--line)" }}
@@ -211,7 +232,6 @@ export default function BookingModal({ target, onClose }: BookingModalProps) {
             </button>
           </div>
 
-          {/* Body */}
           <div className="px-6 py-6">
             {isSpec && tour ? (
               <>
@@ -262,15 +282,16 @@ export default function BookingModal({ target, onClose }: BookingModalProps) {
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <ModalField label="Имя" type="text" placeholder="Ivan" required />
-                  <ModalField label="Фамилия" type="text" placeholder="Astronautov" required />
+                  <ModalField label="Имя" name="firstName" type="text" placeholder="Ivan" required />
+                  <ModalField label="Фамилия" name="lastName" type="text" placeholder="Astronautov" required />
                 </div>
-                <ModalField label="E-mail" type="email" placeholder="ops@example.com" required />
-                <ModalField label="Телефон (по желанию)" type="tel" placeholder="+7 ..." />
+                <ModalField label="E-mail" name="email" type="email" placeholder="ops@example.com" required />
+                <ModalField label="Телефон (по желанию)" name="phone" type="tel" placeholder="+7 ..." />
 
                 <div className="grid grid-cols-2 gap-3">
                   <ModalSelect
                     label="Миссия"
+                    name="mission"
                     options={[
                       { value: "orbital", label: "M-01 / ORBITAL-1" },
                       { value: "moon",    label: "M-02 / MOON-3" },
@@ -280,6 +301,7 @@ export default function BookingModal({ target, onClose }: BookingModalProps) {
                   />
                   <ModalSelect
                     label="Окно запуска"
+                    name="window"
                     options={WINDOWS.map((w) => ({ value: w, label: w }))}
                   />
                 </div>
@@ -305,27 +327,28 @@ export default function BookingModal({ target, onClose }: BookingModalProps) {
                   </button>
                   <button
                     type="submit"
+                    disabled={submitting}
                     className="flex-1 py-2.5 font-semibold transition-all duration-200"
                     style={{
                       fontFamily: "var(--ff-mono)",
                       fontSize: 11,
                       letterSpacing: "0.1em",
                       textTransform: "uppercase",
-                      background: "var(--accent)",
+                      background: submitting ? "var(--line)" : "var(--accent)",
                       border: "1px solid var(--accent)",
                       color: "var(--void)",
+                      opacity: submitting ? 0.6 : 1,
                     }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--accent)"; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = "var(--accent)"; e.currentTarget.style.color = "var(--void)"; }}
+                    onMouseEnter={(e) => { if (!submitting) { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--accent)"; } }}
+                    onMouseLeave={(e) => { if (!submitting) { e.currentTarget.style.background = "var(--accent)"; e.currentTarget.style.color = "var(--void)"; } }}
                   >
-                    Отправить →
+                    {submitting ? "Отправка..." : "Отправить →"}
                   </button>
                 </div>
               </form>
             )}
           </div>
 
-          {/* Footer */}
           <div
             className="flex items-center justify-between px-6 py-3"
             style={{ borderTop: "1px solid var(--line)" }}
@@ -338,8 +361,7 @@ export default function BookingModal({ target, onClose }: BookingModalProps) {
                 onClick={() => {
                   onClose();
                   setTimeout(() => {
-                    // trigger booking via parent
-                  }, 50);
+                    }, 50);
                 }}
                 style={{
                   fontFamily: "var(--ff-mono)",
@@ -366,9 +388,9 @@ export default function BookingModal({ target, onClose }: BookingModalProps) {
 }
 
 function ModalField({
-  label, type, placeholder, required,
+  label, name, type, placeholder, required,
 }: {
-  label: string; type: string; placeholder: string; required?: boolean;
+  label: string; name: string; type: string; placeholder: string; required?: boolean;
 }) {
   return (
     <div className="flex flex-col gap-1.5">
@@ -378,6 +400,7 @@ function ModalField({
         {label}
       </label>
       <input
+        name={name}
         type={type}
         placeholder={placeholder}
         required={required}
@@ -397,9 +420,10 @@ function ModalField({
 }
 
 function ModalSelect({
-  label, options, defaultValue,
+  label, name, options, defaultValue,
 }: {
   label: string;
+  name: string;
   options: Array<{ value: string; label: string }>;
   defaultValue?: string;
 }) {
@@ -409,6 +433,7 @@ function ModalSelect({
         {label}
       </label>
       <select
+        name={name}
         defaultValue={defaultValue}
         className="w-full px-3 py-2.5 outline-none"
         style={{
