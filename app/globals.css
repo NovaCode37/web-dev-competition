@@ -1,0 +1,204 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ── Nova Astro design tokens ── */
+:root {
+  --void: #05070d;
+  --deep: #0a0f1e;
+  --panel: #0d1424;
+  --panel-2: #111a2f;
+  --line: #1a2540;
+  --line-soft: #141c34;
+  --ink: #e7ecf5;
+  --ink-dim: #8b97b3;
+  --ink-mute: #5a6686;
+
+  --violet: oklch(0.70 0.18 295);
+  --violet-soft: oklch(0.55 0.18 295);
+  --gold: oklch(0.84 0.13 85);
+  --gold-soft: oklch(0.68 0.13 85);
+  --teal: oklch(0.80 0.12 190);
+  --danger: oklch(0.72 0.19 25);
+
+  --accent: var(--violet);
+  --accent-soft: var(--violet-soft);
+
+  --ff-display: var(--font-space-grotesk), ui-sans-serif, system-ui;
+  --ff-body: var(--font-inter), ui-sans-serif, system-ui;
+  --ff-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --pad-x: clamp(24px, 4vw, 72px);
+  --radius: 0;
+
+  /* shadcn overrides */
+  --background: var(--void);
+  --foreground: var(--ink);
+  --card: var(--panel);
+  --card-foreground: var(--ink);
+  --popover: var(--panel);
+  --popover-foreground: var(--ink);
+  --primary: var(--accent);
+  --primary-foreground: var(--void);
+  --secondary: var(--panel-2);
+  --secondary-foreground: var(--ink);
+  --muted: var(--panel-2);
+  --muted-foreground: var(--ink-dim);
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--accent);
+  --destructive: var(--danger);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --font-sans: var(--ff-body);
+  --font-mono: var(--ff-mono);
+  --font-heading: var(--ff-display);
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+}
+
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--void);
+  color: var(--ink);
+  font-family: var(--ff-body);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+h1, h2, h3, h4, h5 {
+  font-family: var(--ff-display);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; }
+
+/* ── Starfield background ── */
+.nova-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(120,80,220,0.12), transparent 50%),
+    radial-gradient(ellipse at 90% 40%, rgba(210,170,80,0.06), transparent 55%),
+    var(--void);
+}
+.nova-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 12% 22%, #cfd6e6 60%, transparent),
+    radial-gradient(1px 1px at 34% 78%, #aeb7d0 60%, transparent),
+    radial-gradient(1px 1px at 67% 12%, #dfe5f4 60%, transparent),
+    radial-gradient(1px 1px at 82% 64%, #b9c2dc 60%, transparent),
+    radial-gradient(1px 1px at 48% 40%, #e7ecf5 60%, transparent),
+    radial-gradient(1px 1px at 8%  88%, #9aa5c4 60%, transparent),
+    radial-gradient(1px 1px at 92% 28%, #cfd6e6 60%, transparent),
+    radial-gradient(1.2px 1.2px at 58% 86%, #fff 60%, transparent),
+    radial-gradient(1px 1px at 24% 55%, #8b97b3 60%, transparent);
+  background-size: 100% 100%;
+  opacity: .55;
+}
+
+/* ── Grid overlay ── */
+.nova-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(140,160,210,0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(140,160,210,0.045) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);
+}
+
+/* ── Utilities ── */
+.wrap {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-left:0;
+  padding-right:0;
+}
+.mono {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.mono-sm {
+  font-family: var(--ff-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.label-dot::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* ── Schema box corners ── */
+.schema-box {
+  position: relative;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(13,20,36,0.4), rgba(5,7,13,0.4));
+}
+.schema-box::before,
+.schema-box::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--accent);
+}
+.schema-box::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+.schema-box::after  { top: -1px; right: -1px; border-left: none; border-bottom: none; }
+
+/* ── Pulse animation ── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .35; }
+}
+.pulse { animation: pulse-dot 2s ease-in-out infinite; }
+
+/* ── Ticker animation ── */
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.ticker-track { animation: ticker 40s linear infinite; }
+
+/* ── Orbit animation ── */
+@keyframes orbit-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
