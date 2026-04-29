@@ -1,4 +1,4 @@
-﻿from app.schemas import Booking, Difficulty, RouteModule, Tour
+from app.schemas import Booking, Difficulty, RouteModule, Tour
 
 TOURS: dict[str, Tour] = {
     "orbital": Tour(

@@ -1,20 +1,16 @@
 from datetime import datetime
 from enum import Enum
-
 from pydantic import BaseModel, EmailStr, Field
-
 
 class Difficulty(str, Enum):
     beginner = "beginner"
     advanced = "advanced"
     expert = "expert"
 
-
 class BookingStatus(str, Enum):
     pending_confirmation = "pending_confirmation"
     confirmed = "confirmed"
     canceled = "canceled"
-
 
 class Tour(BaseModel):
     id: str
@@ -27,7 +23,6 @@ class Tour(BaseModel):
     highlights: list[str]
     description: str
 
-
 class RouteModule(BaseModel):
     id: str
     title: str
@@ -36,11 +31,9 @@ class RouteModule(BaseModel):
     price_mln: float = Field(gt=0)
     experience: str
 
-
 class TourListResponse(BaseModel):
     items: list[Tour]
     total: int
-
 
 class CustomRouteRequest(BaseModel):
     traveler_name: str = Field(min_length=2, max_length=60)
@@ -50,7 +43,6 @@ class CustomRouteRequest(BaseModel):
     budget_mln: float = Field(gt=0)
     intensity: str = Field(default="balanced", pattern="^(calm|balanced|intense)$")
 
-
 class CustomRouteResponse(BaseModel):
     traveler_name: str
     route_modules: list[RouteModule]
@@ -58,14 +50,12 @@ class CustomRouteResponse(BaseModel):
     total_price_mln: float
     recommendation: str
 
-
 class BookingRequest(BaseModel):
     tour_id: str
     full_name: str = Field(min_length=2, max_length=80)
     email: EmailStr
     travelers_count: int = Field(ge=1, le=6)
     special_request: str | None = Field(default=None, max_length=300)
-
 
 class Booking(BaseModel):
     id: str
@@ -78,15 +68,12 @@ class Booking(BaseModel):
     created_at: datetime
     special_request: str | None
 
-
 class BookingStatusUpdateRequest(BaseModel):
     status: BookingStatus
-
 
 class BookingListResponse(BaseModel):
     items: list[Booking]
     total: int
-
 
 class AgencyStats(BaseModel):
     tours_total: int
@@ -94,12 +81,10 @@ class AgencyStats(BaseModel):
     available_seats: int
     destinations: list[str]
 
-
 class ApiError(BaseModel):
     code: str
     message: str
     details: list[dict[str, str]] | None = None
-
 
 class ApiErrorResponse(BaseModel):
     error: ApiError
