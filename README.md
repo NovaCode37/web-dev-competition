@@ -4,6 +4,10 @@
 </p>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/Digital_Wind_2026-🥇_1st_Place-FFD700?style=for-the-badge" alt="Digital Wind 1st Place" />
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Next.js-16-black?logo=next.js" alt="Next.js" />
   <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react" alt="React" />
   <img src="https://img.shields.io/badge/FastAPI-0.110-009688?logo=fastapi" alt="FastAPI" />
@@ -18,7 +22,8 @@
 
 **Nova Astro** is a fullstack web platform for a fictional space tourism agency. Users can browse a catalog of space expeditions, view mission specifications, explore the fleet and crew training program, and book a seat — all through a responsive interface backed by a REST API.
 
-**Built for:** *Digital Wind* web development competition (Цифровой ветер)
+**Built for:** *Digital Wind* web development competition (Цифровой ветер) — **🥇 1st place winner**
+**Purpose:** Portfolio project for university applications
 
 ---
 
@@ -196,16 +201,16 @@ Open [http://localhost:3000](http://localhost:3000). The frontend proxies `/api/
 
 ## Key Engineering Decisions
 
-| Decision | Rationale |
-|----------|-----------|
-| **FastAPI over Flask/Django** | Async, built-in validation, auto Swagger; Django's ORM/admin unnecessary |
-| **In-memory storage** | No external dependencies for a competition project; replaceable by swapping `storage.py` |
-| **Lifting State Up** | `bookingTarget` in root `page.tsx` — no Redux/Zustand needed for a single-page app |
-| **Inline SVG** | Scalable, styled with CSS vars, no D3/Chart.js dependency |
-| **Greedy algorithm** for route builder | 6 modules — simple and sufficient vs dynamic programming overhead |
-| **`oklch()` colors** | Perceptually uniform — same lightness across violet, gold, and red accents |
-| **Standalone build** | `output: "standalone"` reduces deploy size from ~200 MB to ~30 MB |
-| **Unified error format** | Three global handlers ensure frontend always gets `error.message` |
+| Decision                               | Rationale                                                                                |
+| ----------------------------------------| ------------------------------------------------------------------------------------------|
+| **FastAPI over Flask/Django**          | Async, built-in validation, auto Swagger; Django's ORM/admin unnecessary                 |
+| **In-memory storage**                  | No external dependencies for a competition project; replaceable by swapping `storage.py` |
+| **Lifting State Up**                   | `bookingTarget` in root `page.tsx` — no Redux/Zustand needed for a single-page app       |
+| **Inline SVG**                         | Scalable, styled with CSS vars, no D3/Chart.js dependency                                |
+| **Greedy algorithm** for route builder | 6 modules — simple and sufficient vs dynamic programming overhead                        |
+| **`oklch()` colors**                   | Perceptually uniform — same lightness across violet, gold, and red accents               |
+| **Standalone build**                   | `output: "standalone"` reduces deploy size from ~200 MB to ~30 MB                        |
+| **Unified error format**               | Three global handlers ensure frontend always gets `error.message`                        |
 
 ---
 
@@ -216,4 +221,4 @@ Open [http://localhost:3000](http://localhost:3000). The frontend proxies `/api/
 | **Saveliy Golubev** | Backend (FastAPI, Pydantic, API design)         | [@NovaCode37](https://github.com/NovaCode37) |
 | **XenonZeon**       | Frontend (Next.js, React, Tailwind, animations) | [@XenonZeon](https://github.com/XenonZeon)   |
 
-Competition: **Цифровой ветер** — Web Development category
+Competition: **Цифровой ветер 2026** — Web Development category — **🥇 1st place**
