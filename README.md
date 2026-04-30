@@ -23,7 +23,6 @@
 **Nova Astro** is a fullstack web platform for a fictional space tourism agency. Users can browse a catalog of space expeditions, view mission specifications, explore the fleet and crew training program, and book a seat — all through a responsive interface backed by a REST API.
 
 **Built for:** *Digital Wind* web development competition (Цифровой ветер) — **🥇 1st place winner**
-**Purpose:** Portfolio project for university applications
 
 ---
 
