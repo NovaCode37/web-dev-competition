@@ -218,6 +218,6 @@ Open [http://localhost:3000](http://localhost:3000). The frontend proxies `/api/
 | Contributor         | Role                                            | GitHub                                       |
 | ---------------------| -------------------------------------------------| ----------------------------------------------|
 | **Saveliy Golubev** | Backend (FastAPI, Pydantic, API design)         | [@NovaCode37](https://github.com/NovaCode37) |
-| **XenonZeon**       | Frontend (Next.js, React, Tailwind, animations) | [@XenonZeon](https://github.com/XenonZeon)   |
+| **obsessed777**     | Frontend (Next.js, React, Tailwind, animations) | [@obsessed777](https://github.com/obsessed777) |
 
 Competition: **Цифровой ветер 2026**, Web Development category, 1st place
