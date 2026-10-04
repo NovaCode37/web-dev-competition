@@ -1,10 +1,10 @@
 <p align="center">
   <strong>◆ NOVA ASTRO</strong><br>
-  <em>Space Tourism Agency — Web Platform</em>
+  <em>Space tourism agency web platform</em>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Digital_Wind_2026-🥇_1st_Place-FFD700?style=for-the-badge" alt="Digital Wind 1st Place" />
+  <img src="https://img.shields.io/badge/Digital_Wind_2026-1st_Place-FFD700?style=for-the-badge" alt="Digital Wind 1st Place" />
 </p>
 
 <p align="center">
@@ -20,9 +20,9 @@
 
 ## About
 
-**Nova Astro** is a fullstack web platform for a fictional space tourism agency. Users can browse a catalog of space expeditions, view mission specifications, explore the fleet and crew training program, and book a seat — all through a responsive interface backed by a REST API.
+**Nova Astro** is a fullstack web platform for a fictional space tourism agency. Users can browse a catalog of space expeditions, view mission specifications, explore the fleet and crew training program, and book a seat, all through a responsive interface backed by a REST API.
 
-**Built for:** *Digital Wind* web development competition (Цифровой ветер) — **🥇 1st place winner**
+**Built for:** *Digital Wind* web development competition (Цифровой ветер), 1st place winner
 
 ---
 
@@ -71,7 +71,7 @@
 └──────────────────────────────────────────────────────────────┘
 ```
 
-### Backend — Three-Layer Architecture
+### Backend: three-layer architecture
 
 | Layer | File | Responsibility |
 |-------|------|---------------|
@@ -79,7 +79,7 @@
 | **Business Logic** | `app/services.py` | Tour filtering, booking management, route builder (greedy algorithm) |
 | **Storage** | `app/storage.py` | In-memory dictionaries (`TOURS`, `BOOKINGS`, `ROUTE_MODULES`) |
 
-### Frontend — 9 Components
+### Frontend: 9 components
 
 | Component | Role |
 |-----------|------|
@@ -118,7 +118,7 @@ Interactive API docs available at `http://localhost:8000/docs` (Swagger UI).
 
 ## Design System
 
-**Visual style:** Mission Control HUD — dark theme with angular markers, monospace data readouts, glowing accents.
+**Visual style:** Mission Control HUD, a dark theme with angular markers, monospace data readouts and glowing accents.
 
 | Token | Value | Purpose |
 |-------|-------|---------|
@@ -132,13 +132,13 @@ Interactive API docs available at `http://localhost:8000/docs` (Swagger UI).
 
 **Animations (12):** pulse-dot, ticker, orbit-spin, preloader-rotate, scanline, twinkle, glow-breathe, float-y, section-scan, count-reveal, hover-lift, preloader-scanline
 
-**All diagrams** (trajectories, vessel blueprints, ops topology) are hand-crafted inline SVGs styled with project CSS variables — no charting libraries.
+**All diagrams** (trajectories, vessel blueprints, ops topology) are hand-crafted inline SVGs styled with project CSS variables, with no charting libraries.
 
 ---
 
 ## Responsive Design
 
-- **Desktop** (`md:+`): multi-column grids (3–4 cols), full navbar, trajectory diagram
+- **Desktop** (`md:+`): multi-column grids (3-4 cols), full navbar, trajectory diagram
 - **Mobile** (`<768px`): single column, burger menu with `AnimatePresence`, trajectory hidden
 - **Fluid typography:** `clamp(44px, 6.8vw, 96px)` for headings
 - **Graceful degradation:** site renders with static fallback data when backend is unavailable
@@ -204,10 +204,10 @@ Open [http://localhost:3000](http://localhost:3000). The frontend proxies `/api/
 | ----------------------------------------| ------------------------------------------------------------------------------------------|
 | **FastAPI over Flask/Django**          | Async, built-in validation, auto Swagger; Django's ORM/admin unnecessary                 |
 | **In-memory storage**                  | No external dependencies for a competition project; replaceable by swapping `storage.py` |
-| **Lifting State Up**                   | `bookingTarget` in root `page.tsx` — no Redux/Zustand needed for a single-page app       |
+| **Lifting State Up**                   | `bookingTarget` in root `page.tsx`, no Redux/Zustand needed for a single-page app       |
 | **Inline SVG**                         | Scalable, styled with CSS vars, no D3/Chart.js dependency                                |
-| **Greedy algorithm** for route builder | 6 modules — simple and sufficient vs dynamic programming overhead                        |
-| **`oklch()` colors**                   | Perceptually uniform — same lightness across violet, gold, and red accents               |
+| **Greedy algorithm** for route builder | 6 modules, simple and sufficient vs dynamic programming overhead                        |
+| **`oklch()` colors**                   | Perceptually uniform, same lightness across violet, gold, and red accents               |
 | **Standalone build**                   | `output: "standalone"` reduces deploy size from ~200 MB to ~30 MB                        |
 | **Unified error format**               | Three global handlers ensure frontend always gets `error.message`                        |
 
@@ -220,4 +220,4 @@ Open [http://localhost:3000](http://localhost:3000). The frontend proxies `/api/
 | **Saveliy Golubev** | Backend (FastAPI, Pydantic, API design)         | [@NovaCode37](https://github.com/NovaCode37) |
 | **XenonZeon**       | Frontend (Next.js, React, Tailwind, animations) | [@XenonZeon](https://github.com/XenonZeon)   |
 
-Competition: **Цифровой ветер 2026** — Web Development category — **🥇 1st place**
+Competition: **Цифровой ветер 2026**, Web Development category, 1st place
